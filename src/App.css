@@ -1,54 +1,74 @@
-.app-container {
+.container {
   text-align: center;
-  width: 100%;
-  max-width: 500px;
-  margin: 20px auto;
+  max-width: 600px;
+  margin: 40px auto;
+  color: #e7e7e7;
 }
 
-.input-container,
-.output-container {
-  background-color: white;
-  padding: 20px;
+.header {
+  font-size: 24px;
   margin-bottom: 20px;
 }
 
-.input-button-container {
+.input-container {
+  background-color: #282828;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  padding: 20px;
+  margin-bottom: 20px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
 }
 
 input[type="text"] {
-  width: 100%;
+  flex-grow: 1;
   padding: 10px;
   font-size: 16px;
-  border: 1px solid black;
-  background-color: white;
-  color: black;
+  background-color: #212121;
+  border: 2px solid darkgray;
+  border-radius: 8px;
+  margin-right: 10px;
+  color: #e7e7e7;
+  outline: none;
 }
 
 .add-button {
   padding: 10px 15px;
-  background-color: blue;
-  color: white;
+  background-color: #bb87ff;
+  color: #0c0230;
   border: none;
   cursor: pointer;
   font-size: 16px;
-  margin-left: 10px;
+  border-radius: 8px;
+  flex-shrink: 0;
 }
 
-.todo-list {
-  list-style: none;
-  padding: 0;
+.add-button i {
+  margin-right: 5px;
+}
+
+.output-container {
+  background-color: #282828;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 800px;
 }
 
 .to-do-task {
-  background-color: white;
-  color: black;
-  padding: 10px;
-  margin-bottom: 10px;
+  padding-bottom: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 2px solid #f2f2f2;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.to-do-task:last-child {
+  margin-bottom: 0;
 }
 
 .todo-text {
@@ -56,7 +76,13 @@ input[type="text"] {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: calc(100% - 40px);
+  max-width: calc(100% - 50px);
+  color: #e7e7e7;
+}
+
+.completed-task {
+  text-decoration: line-through;
+  color: #9e9e9e;
 }
 
 .delete-button {
@@ -65,15 +91,12 @@ input[type="text"] {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: red;
-  color: white;
+  background-color: #01dcc6;
+  color: #0c0230;
   border: none;
   cursor: pointer;
   font-size: 16px;
+  border-radius: 50%;
   margin-left: auto;
-}
-
-.to-do-task.completed .todo-text {
-  text-decoration: line-through;
-  color: gray;
+  text-decoration: none;
 }

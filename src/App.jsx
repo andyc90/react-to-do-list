@@ -9,11 +9,11 @@ const ToDoTask = ({ task, onToggleComplete, onDelete }) => {
   };
 
   return (
-    <div className={`to-do-task ${task.isCompleted ? "completed" : ""}`} onClick={() => onToggleComplete(task.id)}>
-      <span className={`todo-text ${task.isCompleted ? "completed-text" : ""}`}>{task.text}</span>
-      <span className="delete-button" onClick={handleDeleteClick}>
-        <i className="fas fa-times"></i>
-      </span>
+    <div className="to-do-task" onClick={() => onToggleComplete(task.id)}>
+      <span className={`todo-text ${task.isCompleted ? "completed-task" : ""}`}>{task.text}</span>
+      <button className="delete-button custom-delete-button" onClick={handleDeleteClick}>
+        <i className="fa-solid fa-xmark"></i>
+      </button>
     </div>
   );
 };
@@ -64,29 +64,26 @@ const App = () => {
   };
 
   return (
-    <div className="app-container">
+    <div className="container">
+      <h1 className="header">To-Do List</h1>
       <div className="input-container">
-        <div className="input-button-container">
-          <input
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            onKeyPress={handleInputKeyPress}
-            type="text"
-            placeholder="Add a new task"
-          />
-          <button className="add-button" onClick={handleAddTodo}>
-            <i className="fas fa-plus"></i>
-          </button>
-        </div>
+        <input
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          onKeyPress={handleInputKeyPress}
+          type="text"
+          placeholder="Add a new task"
+        />
+        <button className="add-button" onClick={handleAddTodo}>
+          <i className="fas fa-plus"></i>ADD
+        </button>
       </div>
 
       {hasTasks && (
         <div className="output-container">
-          <div className="todo-list">
-            {todos.map((task) => (
-              <ToDoTask key={task.id} task={task} onToggleComplete={handleToggleComplete} onDelete={handleDelete} />
-            ))}
-          </div>
+          {todos.map((task) => (
+            <ToDoTask key={task.id} task={task} onToggleComplete={handleToggleComplete} onDelete={handleDelete} />
+          ))}
         </div>
       )}
     </div>

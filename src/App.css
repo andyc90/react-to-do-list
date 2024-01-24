@@ -58,6 +58,7 @@ button {
   margin-right: 5px;
 }
 
+.edit-button,
 .delete-button {
   width: 30px;
   height: 30px;
@@ -70,7 +71,6 @@ button {
   cursor: pointer;
   font-size: 16px;
   border-radius: 50%;
-  margin-left: auto;
   text-decoration: none;
 }
 
@@ -89,6 +89,7 @@ button {
 }
 
 .add-button:hover,
+.edit-button:hover,
 .delete-button:hover,
 .clear-button:hover {
   background-color: var(--button-bg-hover);
@@ -135,11 +136,32 @@ input[type="text"]:focus {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: calc(100% - 50px);
+  max-width: calc(100% - 80px);
   color: var(--text-color);
 }
 
 .completed-task {
   text-decoration: line-through;
   color: var(--task-completed);
+}
+
+.button-container {
+  display: flex;
+  gap: 10px;
+}
+
+.delete-button {
+  margin-left: 0;
+}
+
+.edit-input {
+  flex-grow: 1;
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid var(--input-border);
+  border-radius: 8px;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+  outline: none;
+  margin-right: 10px;
 }

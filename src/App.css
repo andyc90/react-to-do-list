@@ -1,15 +1,13 @@
 :root {
-  --primary-color: #b1b1b1;
-  --background-color: #282828;
+  --bg-color: #282828;
   --text-color: #b1b1b1;
-  --input-background: #212121;
   --input-border: #333333;
   --input-placeholder: #333333;
   --input-focus-border: #bb87ff;
   --button-bg: #bb87ff;
   --button-text: #0c0230;
-  --output-bg: #282828;
-  --task-border: #333333;
+  --button-bg-hover: #1a171c;
+  --task-divider: #333333;
   --task-completed: #333333;
 }
 
@@ -17,16 +15,11 @@
   text-align: center;
   max-width: 600px;
   margin: 40px auto;
-  color: var(--primary-color);
-}
-
-.header {
-  font-size: 24px;
-  margin-bottom: 20px;
+  color: var(--text-color);
 }
 
 .input-container {
-  background-color: var(--background-color);
+  background-color: var(--bg-color);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   padding: 20px;
   margin-bottom: 20px;
@@ -35,24 +28,14 @@
   align-items: center;
 }
 
-input[type="text"] {
-  flex-grow: 1;
-  padding: 10px;
-  font-size: 16px;
-  background-color: var(--input-background);
-  border: 2px solid var(--input-border);
-  border-radius: 8px;
-  margin-right: 10px;
-  color: var(--text-color);
-  outline: none;
-}
-
-input[type="text"]::placeholder {
-  color: var(--input-placeholder);
-}
-
-input[type="text"]:focus {
-  border-color: var(--input-focus-border);
+.output-container {
+  background-color: var(--bg-color);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 800px;
 }
 
 button {
@@ -70,18 +53,66 @@ button {
   flex-shrink: 0;
 }
 
-.add-button i {
+.add-button i,
+.clear-button i {
   margin-right: 5px;
 }
 
-.output-container {
-  background-color: var(--output-bg);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  padding: 20px;
+.delete-button {
+  width: 30px;
+  height: 30px;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  max-width: 800px;
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 50%;
+  margin-left: auto;
+  text-decoration: none;
+}
+
+.clear-button {
+  padding: 10px 15px;
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 8px;
+  margin-left: 10px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.add-button:hover,
+.delete-button:hover,
+.clear-button:hover {
+  background-color: var(--button-bg-hover);
+  color: var(--text-color);
+}
+
+input[type="text"] {
+  flex-grow: 1;
+  padding: 10px;
+  font-size: 16px;
+  background-color: var(--input-bg);
+  border: 2px solid var(--input-border);
+  border-radius: 8px;
+  margin-right: 10px;
+  color: var(--text-color);
+  outline: none;
+}
+
+input[type="text"]::placeholder {
+  color: var(--input-placeholder);
+}
+
+input[type="text"]:focus {
+  border-color: var(--input-focus-border);
 }
 
 .to-do-task {
@@ -89,7 +120,7 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid var(--task-border);
+  border-bottom: 2px solid var(--task-divider);
   width: 100%;
   margin-bottom: 20px;
   font-weight: bold;
@@ -111,20 +142,4 @@ button {
 .completed-task {
   text-decoration: line-through;
   color: var(--task-completed);
-}
-
-.delete-button {
-  width: 30px;
-  height: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: var(--button-bg);
-  color: var(--button-text);
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  border-radius: 50%;
-  margin-left: auto;
-  text-decoration: none;
 }

@@ -57,6 +57,11 @@ const App = () => {
     setHasTasks(filteredTodos.length > 0);
   };
 
+  const handleClearAll = () => {
+    setTodos([]);
+    setHasTasks(false);
+  };
+
   const handleInputKeyPress = (e) => {
     if (e.key === "Enter") {
       handleAddTodo();
@@ -65,7 +70,6 @@ const App = () => {
 
   return (
     <div className="container">
-      <h1 className="header">To-Do List</h1>
       <div className="input-container">
         <input
           value={inputValue}
@@ -77,6 +81,11 @@ const App = () => {
         <button className="add-button" onClick={handleAddTodo}>
           <i className="fas fa-plus"></i>ADD
         </button>
+        {hasTasks && (
+          <button className="clear-button" onClick={handleClearAll}>
+            <i className="fa-solid fa-broom"></i>CLEAR
+          </button>
+        )}
       </div>
 
       {hasTasks && (

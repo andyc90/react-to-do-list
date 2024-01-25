@@ -3,10 +3,10 @@
   --text-color: #b1b1b1;
   --input-border: #333333;
   --input-placeholder: #333333;
-  --input-focus-border: #bb87ff;
-  --button-bg: #bb87ff;
+  --input-focus-border: #01c4ac;
+  --button-bg: #01c4ac;
   --button-text: #0c0230;
-  --button-bg-hover: #1a171c;
+  --button-bg-hover: #0c0230;
   --task-divider: #333333;
   --task-completed: #333333;
 }

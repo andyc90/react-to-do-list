@@ -165,3 +165,43 @@ input[type="text"]:focus {
   outline: none;
   margin-right: 10px;
 }
+
+@media screen and (max-width: 480px) {
+  .container {
+    margin: 20px auto;
+    padding: 10px;
+  }
+
+  .input-container,
+  .output-container {
+    padding: 10px;
+  }
+
+  button,
+  input[type="text"] {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .add-button,
+  .clear-button {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  .edit-button,
+  .delete-button {
+    width: 25px;
+    height: 25px;
+    font-size: 14px;
+  }
+
+  .todo-text {
+    font-size: 14px;
+    max-width: calc(100% - 70px);
+  }
+
+  .edit-input {
+    font-size: 14px;
+  }
+}

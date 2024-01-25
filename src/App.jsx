@@ -1,8 +1,14 @@
 import { useState, useRef } from "react";
 import PropTypes from "prop-types";
 import "./App.css";
+import addSound from "./assets/audio/add_sfx.mp3";
+import clearSound from "./assets/audio/clear_sfx.mp3";
+import deleteSound from "./assets/audio/delete_sfx.mp3";
+import editSound from "./assets/audio/edit_sfx.mp3";
 
-const ToDoTask = ({ task, onToggleComplete, onDelete, onEdit }) => {
+const globalVolume = 0.2;
+
+const ToDoTask = ({ task, onToggleComplete, onDelete, onEdit, playDeleteSound, playEditSound }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editText, setEditText] = useState(task.text);
   const editInputRef = useRef(null);
@@ -10,11 +16,13 @@ const ToDoTask = ({ task, onToggleComplete, onDelete, onEdit }) => {
   const handleDeleteClick = (e) => {
     e.stopPropagation();
     onDelete(task.id);
+    playDeleteSound();
   };
 
   const handleEditClick = (e) => {
     e.stopPropagation();
     setIsEditing(true);
+    playEditSound();
   };
 
   const handleInputChange = (e) => {
@@ -25,9 +33,12 @@ const ToDoTask = ({ task, onToggleComplete, onDelete, onEdit }) => {
     if (e.key === "Enter") {
       onEdit(task.id, editText);
       setIsEditing(false);
+      playEditSound();
     } else if (e.key === "Escape") {
       setIsEditing(false);
-      if (editInputRef.current) editInputRef.current.blur();
+      if (editInputRef.current) {
+        editInputRef.current.blur();
+      }
     }
   };
 
@@ -72,12 +83,26 @@ ToDoTask.propTypes = {
   onToggleComplete: PropTypes.func,
   onDelete: PropTypes.func,
   onEdit: PropTypes.func,
+  playDeleteSound: PropTypes.func,
+  playEditSound: PropTypes.func,
 };
 
 const App = () => {
   const [todos, setTodos] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const inputContainerRef = useRef(null);
+
+  const playSound = (soundFile) => {
+    const audio = new Audio(soundFile);
+    audio.currentTime = 0;
+    audio.volume = globalVolume;
+    audio.play();
+  };
+
+  const playAddSound = () => playSound(addSound);
+  const playClearSound = () => playSound(clearSound);
+  const playDeleteSound = () => playSound(deleteSound);
+  const playEditSound = () => playSound(editSound);
 
   const handleAddTodo = () => {
     if (inputValue.trim() !== "") {
@@ -88,6 +113,7 @@ const App = () => {
       };
       setTodos([...todos, newTask]);
       setInputValue("");
+      playAddSound();
     }
   };
 
@@ -99,15 +125,18 @@ const App = () => {
   const handleDelete = (id) => {
     const filteredTodos = todos.filter((task) => task.id !== id);
     setTodos(filteredTodos);
+    playDeleteSound();
   };
 
   const handleEdit = (id, newText) => {
     const updatedTodos = todos.map((task) => (task.id === id ? { ...task, text: newText } : task));
     setTodos(updatedTodos);
+    playEditSound();
   };
 
   const handleClearAll = () => {
     setTodos([]);
+    playClearSound();
   };
 
   const handleInputKeyPress = (e) => {
@@ -154,6 +183,8 @@ const App = () => {
               onToggleComplete={handleToggleComplete}
               onDelete={handleDelete}
               onEdit={handleEdit}
+              playDeleteSound={playDeleteSound}
+              playEditSound={playEditSound}
             />
           ))}
         </div>

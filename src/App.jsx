@@ -52,10 +52,10 @@ const ToDoTask = ({ task, onToggleComplete, onDelete, onEdit }) => {
         <span className={`todo-text ${task.isCompleted ? "completed-task" : ""}`}>{task.text}</span>
       )}
       <div className="button-container">
-        <button className="edit-button custom-edit-button" onClick={handleEditClick}>
+        <button className="edit-button" onClick={handleEditClick}>
           <i className="fa-solid fa-pen"></i>
         </button>
-        <button className="delete-button custom-delete-button" onClick={handleDeleteClick}>
+        <button className="delete-button" onClick={handleDeleteClick}>
           <i className="fa-solid fa-xmark"></i>
         </button>
       </div>
@@ -65,18 +65,19 @@ const ToDoTask = ({ task, onToggleComplete, onDelete, onEdit }) => {
 
 ToDoTask.propTypes = {
   task: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    text: PropTypes.string.isRequired,
-    isCompleted: PropTypes.bool.isRequired,
+    id: PropTypes.number,
+    text: PropTypes.string,
+    isCompleted: PropTypes.bool,
   }),
-  onToggleComplete: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
-  onEdit: PropTypes.func.isRequired,
+  onToggleComplete: PropTypes.func,
+  onDelete: PropTypes.func,
+  onEdit: PropTypes.func,
 };
 
 const App = () => {
   const [todos, setTodos] = useState([]);
   const [inputValue, setInputValue] = useState("");
+  const inputContainerRef = useRef(null);
 
   const handleAddTodo = () => {
     if (inputValue.trim() !== "") {
@@ -115,13 +116,22 @@ const App = () => {
     }
   };
 
+  const handleInputEscape = (e) => {
+    if (e.key === "Escape" && inputContainerRef.current) {
+      inputContainerRef.current.querySelector("input").blur();
+    }
+  };
+
   return (
     <div className="container">
-      <div className="input-container">
+      <div className="input-container" ref={inputContainerRef}>
         <input
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
-          onKeyDown={handleInputKeyPress}
+          onKeyDown={(e) => {
+            handleInputKeyPress(e);
+            handleInputEscape(e);
+          }}
           placeholder="Add a new task"
           type="text"
         />

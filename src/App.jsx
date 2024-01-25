@@ -5,8 +5,22 @@ import addSound from "./assets/audio/add_sfx.mp3";
 import clearSound from "./assets/audio/clear_sfx.mp3";
 import deleteSound from "./assets/audio/delete_sfx.mp3";
 import editSound from "./assets/audio/edit_sfx.mp3";
+import editCompleteSound from "./assets/audio/edit_complete_sfx.mp3";
 
-const globalVolume = 0.2;
+const globalVolume = 0.1;
+
+const throttle = (func, limit) => {
+  let inThrottle;
+  return function () {
+    const args = arguments;
+    const context = this;
+    if (!inThrottle) {
+      func.apply(context, args);
+      inThrottle = true;
+      setTimeout(() => (inThrottle = false), limit);
+    }
+  };
+};
 
 const ToDoTask = ({ task, onToggleComplete, onDelete, onEdit, playDeleteSound, playEditSound }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -31,9 +45,14 @@ const ToDoTask = ({ task, onToggleComplete, onDelete, onEdit, playDeleteSound, p
 
   const handleInputKeyPress = (e) => {
     if (e.key === "Enter") {
+      playEditSound();
       onEdit(task.id, editText);
       setIsEditing(false);
-      playEditSound();
+      if (editText !== task.text) {
+        const editCompleteAudio = new Audio(editCompleteSound);
+        editCompleteAudio.volume = globalVolume;
+        editCompleteAudio.play();
+      }
     } else if (e.key === "Escape") {
       setIsEditing(false);
       if (editInputRef.current) {
@@ -91,6 +110,10 @@ const App = () => {
   const [todos, setTodos] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const inputContainerRef = useRef(null);
+  const throttledPlayAddSound = throttle(() => playSound(addSound), 1000);
+  const throttledPlayClearSound = throttle(() => playSound(clearSound), 1000);
+  const throttledPlayDeleteSound = throttle(() => playSound(deleteSound), 1000);
+  const throttledPlayEditSound = throttle(() => playSound(editSound), 1000);
 
   const playSound = (soundFile) => {
     const audio = new Audio(soundFile);
@@ -98,11 +121,6 @@ const App = () => {
     audio.volume = globalVolume;
     audio.play();
   };
-
-  const playAddSound = () => playSound(addSound);
-  const playClearSound = () => playSound(clearSound);
-  const playDeleteSound = () => playSound(deleteSound);
-  const playEditSound = () => playSound(editSound);
 
   const handleAddTodo = () => {
     if (inputValue.trim() !== "") {
@@ -113,7 +131,7 @@ const App = () => {
       };
       setTodos([...todos, newTask]);
       setInputValue("");
-      playAddSound();
+      throttledPlayAddSound();
     }
   };
 
@@ -125,18 +143,18 @@ const App = () => {
   const handleDelete = (id) => {
     const filteredTodos = todos.filter((task) => task.id !== id);
     setTodos(filteredTodos);
-    playDeleteSound();
+    throttledPlayDeleteSound();
   };
 
   const handleEdit = (id, newText) => {
     const updatedTodos = todos.map((task) => (task.id === id ? { ...task, text: newText } : task));
     setTodos(updatedTodos);
-    playEditSound();
+    throttledPlayEditSound();
   };
 
   const handleClearAll = () => {
     setTodos([]);
-    playClearSound();
+    throttledPlayClearSound();
   };
 
   const handleInputKeyPress = (e) => {
@@ -183,8 +201,8 @@ const App = () => {
               onToggleComplete={handleToggleComplete}
               onDelete={handleDelete}
               onEdit={handleEdit}
-              playDeleteSound={playDeleteSound}
-              playEditSound={playEditSound}
+              playDeleteSound={throttledPlayDeleteSound}
+              playEditSound={throttledPlayEditSound}
             />
           ))}
         </div>
